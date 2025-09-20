@@ -1,0 +1,1061 @@
+!DOCTYPE html
+html lang=en
+head
+    meta charset=UTF-8 
+    meta name=viewport content=width=device-width, initial-scale=1.0
+    titleBreeding Cave - Professional Pixelmon Breeding Servicetitle
+    style
+         (kept your CSS mostly intact; no functional changes here except minor spacing) 
+         { margin 0; padding 0; box-sizing border-box; }
+        body {
+            font-family 'Arial', sans-serif;
+            background linear-gradient(135deg, #2c1810 0%, #4a2c1a 50%, #1a0f08 100%);
+            background-attachment fixed;
+            min-height 100vh;
+            color #333;
+            position relative;
+        }
+        bodybefore {
+            content '';
+            position fixed; top 0; left 0; width 100%; height 100%;
+            background
+                radial-gradient(circle at 20% 30%, rgba(139,69,19,0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(160,82,45,0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(101,67,33,0.1) 0%, transparent 70%);
+            pointer-events none; z-index 0;
+        }
+        .container { max-width 1200px; margin 0 auto; padding 20px; position relative; z-index 1; }
+        header {
+            text-align center; margin-bottom 30px; background linear-gradient(145deg, rgba(101,67,33,0.8), rgba(139,69,19,0.6));
+            backdrop-filter blur(10px); border-radius 20px; padding 30px; border 2px solid rgba(160,82,45,0.5);
+            box-shadow inset 0 0 20px rgba(139,69,19,0.3), 0 10px 30px rgba(0,0,0,0.5); position relative;
+        }
+        headerbefore {
+            content ''; position absolute; top -2px; left -2px; right -2px; bottom -2px;
+            background linear-gradient(45deg, #8B4513, #A0522D, #654321); border-radius 22px; z-index -1;
+        }
+        .admin-login-btn {
+            position absolute; top 15px; right 15px; background rgba(139,69,19,0.8);
+            border 1px solid rgba(160,82,45,0.8); padding 8px 15px; border-radius 15px; color #d4af37;
+            cursor pointer; font-size 0.9em; transition all 0.3s ease;
+        }
+        .admin-login-btnhover { background rgba(160,82,45,0.8); box-shadow 0 0 15px rgba(212,175,55,0.3); }
+        h1 { color #d4af37; font-size 2.8em; text-shadow 2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(212,175,55,0.5); margin-bottom 15px; font-weight bold; }
+        .subtitle { color #deb887; font-size 1.3em; margin-bottom 20px; text-shadow 1px 1px 2px rgba(0,0,0,0.7); }
+        .cave-accent { color #cd853f; font-size 1.1em; text-shadow 1px 1px 2px rgba(0,0,0,0.5); }
+
+        .nav-tabs { displayflex; justify-contentcenter; gap10px; margin-bottom 20px; flex-wrapwrap; }
+        .tab-btn { background linear-gradient(145deg, rgba(139,69,19,0.8), rgba(101,67,33,0.8)); border 2px solid rgba(160,82,45,0.6); padding12px 24px; border-radius25px; color#deb887; cursorpointer; transitionall .3s; font-weightbold; text-shadow1px 1px 2px rgba(0,0,0,0.7); }
+        .tab-btnhover, .tab-btn.active { background linear-gradient(145deg, rgba(160,82,45,0.9), rgba(139,69,19,0.9)); transform translateY(-2px); box-shadow0 5px 15px rgba(0,0,0,0.4); color#d4af37; border-colorrgba(212,175,55,0.8); }
+
+        .mini-category { displayflex; justify-contentcenter; gap8px; margin-bottom 10px; }
+        .category-btn { padding8px 14px; border-radius12px; cursorpointer; border2px solid rgba(139,69,19,0.3); background linear-gradient(145deg, rgba(245,222,179,0.9), rgba(222,184,135,0.9)); color#8B4513; font-weightbold; }
+        .category-btn.selected { border-color#CD853F; transformscale(1.03); box-shadow0 4px 12px rgba(0,0,0,0.15); }
+
+        .tab-content { displaynone; background linear-gradient(145deg, rgba(222,184,135,0.95), rgba(245,222,179,0.9)); border-radius20px; padding30px; box-shadow0 10px 30px rgba(0,0,0,0.4), inset 0 0 20px rgba(139,69,19,0.1); border2px solid rgba(139,69,19,0.3); }
+        .tab-content.active { displayblock; animation fadeIn .3s ease; }
+        @keyframes fadeIn { from { opacity0; transformtranslateY(10px);} to { opacity1; transformtranslateY(0);} }
+
+        .pokemon-grid { displaygrid; grid-template-columns repeat(auto-fill, minmax(320px, 1fr)); gap20px; margin-top20px; }
+        .pokemon-card { background linear-gradient(145deg,#f5deb3,#deb887); border-radius15px; padding20px; box-shadow0 8px 20px rgba(0,0,0,0.3), inset 0 0 10px rgba(139,69,19,0.1); transitiontransform .3s, box-shadow .3s; border2px solid rgba(139,69,19,0.3); positionrelative; cursorpointer; }
+        .pokemon-cardhover { transformtranslateY(-5px); box-shadow0 12px 25px rgba(0,0,0,0.4), 0 0 20px rgba(212,175,55,0.3); border-color rgba(212,175,55,0.6); }
+
+        .pokemon-image { width80px; height80px; border-radius50%; object-fitcover; floatright; margin-left15px; margin-bottom10px; border3px solid rgba(139,69,19,0.5); box-shadow 0 4px 8px rgba(0,0,0,0.3); }
+        .pokemon-card h3 { color#8B4513; margin-bottom10px; font-size1.4em; text-shadow1px 1px 2px rgba(0,0,0,0.2); }
+
+        .pokemon-stats { margin15px 0; font-size0.9em; color#654321; line-height1.4; }
+        .ivs-display { font-family'Courier New', monospace; background rgba(139,69,19,0.2); padding4px 8px; border-radius6px; displayinline-block; font-weightbold; }
+
+        .price { font-size1.3em; font-weightbold; color#228b22; margin15px 0; text-shadow1px 1px 2px rgba(0,0,0,0.2); }
+        .order-btn, .cart-btn { background linear-gradient(45deg,#8B4513,#A0522D); color#fff; bordernone; padding12px 20px; border-radius25px; cursorpointer; transitionall .3s; font-weightbold; width100%; margin-top10px; text-shadow1px 1px 2px rgba(0,0,0,0.5); }
+        .order-btnhover, .cart-btnhover { background linear-gradient(45deg,#A0522D,#CD853F); transformscale(1.05); box-shadow0 5px 15px rgba(139,69,19,0.4); }
+
+        .admin-controls { positionabsolute; top10px; right10px; displaynone; gap5px; }
+        .admin-controls.show { displayflex; }
+        .admin-btn { background#8B4513; colorwhite; bordernone; padding6px 12px; border-radius5px; cursorpointer; font-size0.8em; transitionall .3s ease; }
+        .admin-btn.edit { background#CD853F; }
+        .admin-btnhover { transformscale(1.1); }
+
+        label { displayblock; margin-bottom8px; font-weightbold; color#8B4513; text-shadow1px 1px 1px rgba(255,255,255,0.3); }
+        input, select, textarea { width100%; padding12px; border2px solid rgba(139,69,19,0.3); border-radius10px; font-size16px; transitionborder-color .3s; background rgba(255,255,255,0.9); }
+        inputfocus, selectfocus, textareafocus { outlinenone; border-color#CD853F; box-shadow0 0 0 3px rgba(205,133,63,0.2); }
+
+        .discount-info { background linear-gradient(45deg,#8B4513,#CD853F); colorwhite; padding20px; border-radius15px; margin20px 0; text-aligncenter; box-shadow0 5px 15px rgba(0,0,0,0.3); border2px solid rgba(212,175,55,0.5); }
+
+        .order-summary { background linear-gradient(145deg, rgba(245,222,179,0.8), rgba(222,184,135,0.8)); padding20px; border-radius15px; margin-top20px; border-left5px solid #8B4513; box-shadow0 5px 15px rgba(0,0,0,0.2); }
+        .status-badge { displayinline-block; padding6px 14px; border-radius20px; font-size0.85em; font-weightbold; text-transformuppercase; }
+        .available { background linear-gradient(45deg,#228b22,#32cd32); colorwhite; box-shadow0 2px 5px rgba(0,0,0,0.2); }
+        .out-of-stock { background linear-gradient(45deg,#8b2635,#cd5c5c); colorwhite; box-shadow0 2px 5px rgba(0,0,0,0.2); }
+
+        .notification { position fixed; top20px; right20px; padding15px 25px; border-radius15px; colorwhite; font-weightbold; z-index1000; transformtranslateX(400px); transitiontransform .3s ease; box-shadow0 5px 15px rgba(0,0,0,0.3); }
+        .notification.success { background linear-gradient(45deg,#228b22,#32cd32); }
+        .notification.error { background linear-gradient(45deg,#8b2635,#cd5c5c); }
+        .notification.show { transform translateX(0); }
+
+        .rank-selector { displaygrid; grid-template-columns repeat(auto-fit, minmax(150px,1fr)); gap10px; margin10px 0; }
+        .rank-option { padding15px; border2px solid rgba(139,69,19,0.3); border-radius15px; text-aligncenter; cursorpointer; transitionall .3s; background linear-gradient(145deg, rgba(245,222,179,0.8), rgba(222,184,135,0.8)); }
+        .rank-optionhover, .rank-option.selected { border-color#CD853F; background linear-gradient(145deg, rgba(205,133,63,0.3), rgba(160,82,45,0.3)); transformscale(1.05); box-shadow0 5px 15px rgba(0,0,0,0.2); }
+
+        .payment-method { displaygrid; grid-template-columns repeat(auto-fit, minmax(200px,1fr)); gap15px; margin15px 0; }
+        .payment-option { padding15px; border2px solid rgba(139,69,19,0.3); border-radius15px; text-aligncenter; cursorpointer; transitionall .3s; background linear-gradient(145deg, rgba(245,222,179,0.8), rgba(222,184,135,0.8)); }
+        .payment-optionhover, .payment-option.selected { border-color#228b22; background linear-gradient(145deg, rgba(34,139,34,0.2), rgba(50,205,50,0.2)); transformscale(1.05); }
+
+        .cart-item { background linear-gradient(145deg, rgba(245,222,179,0.6), rgba(222,184,135,0.6)); padding15px; margin8px 0; border-radius12px; displayflex; justify-contentspace-between; align-itemscenter; border1px solid rgba(139,69,19,0.3); box-shadow0 3px 8px rgba(0,0,0,0.2); }
+        .quantity-controls { displayflex; align-itemscenter; gap10px; }
+        .qty-btn { background#8B4513; colorwhite; bordernone; width30px; height30px; border-radius50%; cursorpointer; displayflex; align-itemscenter; justify-contentcenter; font-weightbold; transitionall .3s; }
+        .qty-btnhover { background#CD853F; transformscale(1.1); }
+
+        .modal { displaynone; positionfixed; z-index2000; left0; top0; width100%; height100%; background-color rgba(0,0,0,0.7); }
+        .modal-content { background linear-gradient(145deg,#f5deb3,#deb887); margin3% auto; padding30px; border-radius20px; width90%; max-width600px; max-height85vh; overflow-yauto; border3px solid rgba(139,69,19,0.5); box-shadow0 15px 35px rgba(0,0,0,0.5); }
+        .close { color#8B4513; floatright; font-size28px; font-weightbold; cursorpointer; line-height1; }
+        .closehover { color#CD853F; }
+
+        .evolution-chain { displayflex; align-itemscenter; justify-contentcenter; flex-wrapwrap; gap20px; padding20px; background rgba(139,69,19,0.1); border-radius15px; margin-top20px; }
+        .evolution-stage { text-aligncenter; padding15px; background rgba(245,222,179,0.8); border-radius12px; border2px solid rgba(139,69,19,0.3); min-width120px; }
+        .evolution-arrow { font-size2em; color#8B4513; font-weightbold; }
+
+        @media (max-width768px) {
+            .nav-tabs { flex-directioncolumn; align-itemscenter; }
+            .pokemon-grid { grid-template-columns 1fr; }
+            .rank-selector { grid-template-columns 1fr; }
+            .payment-method { grid-template-columns 1fr; }
+            .evolution-chain { flex-directioncolumn; }
+            .evolution-arrow { transform rotate(90deg); }
+        }
+    style
+head
+body
+    div class=container
+        header
+            button class=admin-login-btn onclick=showAdminLogin()🔧 Adminbutton
+            h1⛰️ Breeding Cave ⛰️h1
+            p class=subtitleProfessional Pixelmon Breeding Servicep
+            p class=cave-accentpw BreedingCavep !-- replaced text as requested --
+        header
+
+        div class=nav-tabs
+            button class=tab-btn active onclick=showTab('inventory', event)🎒 Pokemonbutton
+            button class=tab-btn onclick=showTab('order', event)🛒 Orderbutton
+            button class=tab-btn onclick=showTab('orders', event)📋 My Ordersbutton
+            button class=tab-btn onclick=showTab('pricing', event)💎 Pricingbutton
+            button class=tab-btn id=adminTab onclick=showTab('admin', event) style=displaynone;⚙️ Adminbutton
+        div
+
+        !-- Category filter (Pokemon  Other items) --
+        div class=mini-category
+            button class=category-btn selected id=categoryPokemonBtn onclick=setCategory('pokemon')Pokemonbutton
+            button class=category-btn id=categoryOtherBtn onclick=setCategory('other')Other itemsbutton
+        div
+
+        !-- Inventory Tab --
+        div id=inventory class=tab-content active
+            h2 style=color #8B4513; margin-bottom 20px;🎯 Available Pokemonh2
+            div class=pokemon-grid id=pokemonGriddiv
+        div
+
+        !-- Order Tab --
+        div id=order class=tab-content
+            h2 style=color #8B4513;🛒 Place Your Orderh2
+            div class=discount-info
+                strong🎉 Special Pricing & Discounts!strongbr
+                First Order Trainer 10k • Champion 20k • Conqueror+ 30kbr
+                Regular Orders Trainer 25k • Champion 30k • Conqueror 35k • Master+ 40k
+            div
+
+            div id=cart style=margin-bottom25px;
+                h3 style=color#8B4513;🛒 Shopping Carth3
+                div id=cartItemsdiv
+                button id=clearCart onclick=clearCart() class=admin-btn style=margin-top10px;Clear Cartbutton
+            div
+
+            form id=orderForm
+                div class=form-group
+                    label👤 In-game Usernamelabel
+                    input type=text id=username required placeholder=Enter your Minecraft username onblur=checkFirstTime()
+                    div id=firstTimeStatus style=margin-top8px; font-weightbold;div
+                div
+
+                div class=form-group
+                    label🏆 Player Ranklabel
+                    div class=rank-selector
+                        div class=rank-option data-rank=trainer onclick=selectRank('trainer')
+                            strongTrainerstrongbr
+                            smallFirst 10k  Regular 25ksmall
+                        div
+                        div class=rank-option data-rank=champion onclick=selectRank('champion')
+                            strongChampionstrongbr
+                            smallFirst 20k  Regular 30ksmall
+                        div
+                        div class=rank-option data-rank=conqueror onclick=selectRank('conqueror')
+                            strongConquerorstrongbr
+                            smallFirst 30k  Regular 35ksmall
+                        div
+                        div class=rank-option data-rank=master onclick=selectRank('master')
+                            strongMasterstrongbr
+                            smallFirst 30k  Regular 40ksmall
+                        div
+                        div class=rank-option data-rank=legend onclick=selectRank('legend')
+                            strongLegendstrongbr
+                            smallFirst 30k  Regular 40ksmall
+                        div
+                    div
+                    input type=hidden id=selectedRank required
+                div
+
+                div class=form-group
+                    label💰 Payment Methodlabel
+                    div class=payment-method
+                        div class=payment-option data-payment=pokedollars onclick=selectPayment('pokedollars')
+                            strong💵 PokeDollarsstrongbr
+                            smallStandard pricingsmall
+                        div
+                        div class=payment-option data-payment=tokens300 onclick=selectPayment('tokens300')
+                            strong🪙 300 Tokensstrongbr
+                            small50% off (1 month)small
+                        div
+                        div class=payment-option data-payment=tokens500 onclick=selectPayment('tokens500')
+                            strong🎫 500 Tokensstrongbr
+                            small1 month freesmall
+                        div
+                    div
+                    input type=hidden id=selectedPayment required
+                div
+
+                div class=form-group
+                    label📝 Special Requirementslabel
+                    textarea id=requirements rows=4 placeholder=Any specific requirements, special requests, or notes...textarea
+                div
+
+                !-- Contact removed (no Discord) --
+
+                div class=order-summary id=orderSummary
+                    h3 style=color #8B4513;📋 Order Summaryh3
+                    pAdd Pokemon to cart and select payment method to see pricing detailsp
+                div
+
+                button type=submit class=order-btn🚀 Submit Orderbutton
+            form
+        div
+
+        !-- Orders Tab --
+        div id=orders class=tab-content
+            h2 style=color #8B4513;📋 Order Historyh2
+            div id=ordersList style=max-height500px; overflow-yauto;
+                p style=text-aligncenter; color#666; margin40px 0;No orders yet. Place your first order to see it here!p
+            div
+        div
+
+        !-- Pricing Tab --
+        div id=pricing class=tab-content
+            h2 style=color#8B4513;💎 Pricing & Informationh2
+            div style=displaygrid; grid-template-columns repeat(auto-fit, minmax(300px,1fr)); gap20px; margin-top25px;
+                div class=pokemon-card
+                    h3🏆 Rank Pricingh3
+                    div style=margin-top15px; line-height1.6;
+                        h4 style=color#CD853F;First Orderh4
+                        pstrongTrainerstrong 10,000p
+                        pstrongChampionstrong 20,000p
+                        pstrongConquerorstrong 30,000p
+                        pstrongMasterstrong 30,000p
+                        pstrongLegendstrong 30,000p
+
+                        h4 style=color#CD853F; margin-top15px;Regular Ordersh4
+                        pstrongTrainerstrong 25,000p
+                        pstrongChampionstrong 30,000p
+                        pstrongConquerorstrong 35,000p
+                        pstrongMasterstrong 40,000p
+                        pstrongLegendstrong 40,000p
+                    div
+                div
+
+                div class=pokemon-card
+                    h3🪙 Token Promotionsh3
+                    div style=margin-top15px; line-height1.6;
+                        pstrong🪙 300 Tokensstrongbr50% off total order (1 month)p
+                        p style=margin15px 0;strong🎫 500 Tokensstrongbr1 month freep
+                        p style=color#228b22; font-size0.9em; font-styleitalic;Note Token promotions apply to the entire order regardless of quantityp
+                    div
+                div
+
+                !-- Service Details removed --
+            div
+        div
+
+        !-- Admin Panel --
+        div id=admin class=tab-content
+            h2 style=color#8B4513;⚙️ Admin Panelh2
+            div style=displaygrid; grid-template-columns1fr 1fr; gap30px;
+                div
+                    h3 style=color#8B4513;➕ Add New Pokemon  Itemh3
+                    form id=addPokemonForm
+                        div class=form-group
+                            labelCategorylabel
+                            select id=newPokemonCategory
+                                option value=pokemonPokemonoption
+                                option value=otherOther items (legendary)option
+                            select
+                        div
+                        div class=form-group
+                            labelPokemon Namelabel
+                            input type=text id=newPokemonName required
+                        div
+                        div class=form-group
+                            labelBase Price (PokeDollars)label
+                            input type=number id=newPokemonPrice required min=1
+                        div
+                        div class=form-group
+                            labelIVs (HPAttDefSpASpDSpe)label
+                            input type=text id=newPokemonIvs required placeholder=313131313131
+                        div
+                        div class=form-group
+                            labelNaturelabel
+                            input type=text id=newPokemonNature required placeholder=e.g., Adamant
+                        div
+                        div class=form-group
+                            labelAbilitylabel
+                            input type=text id=newPokemonAbility required placeholder=e.g., Blaze
+                        div
+                        div class=form-group id=eggMovesGroup
+                            labelEgg Moves (comma separated)label
+                            input type=text id=newPokemonEggMoves placeholder=e.g., Dragon Dance, Outrage
+                        div
+                        div class=form-group
+                            labelPokemon Image URLlabel
+                            input type=url id=newPokemonImage placeholder=httpsexample.comimage.png
+                        div
+                        div class=form-group
+                            labelEvolution Chain (comma separated)label
+                            input type=text id=newPokemonEvolutions placeholder=e.g., Charmander, Charmeleon, Charizard
+                        div
+                        div class=form-group
+                            labelStatuslabel
+                            select id=newPokemonStatus required
+                                option value=availableAvailableoption
+                                option value=out-of-stockOut of Stockoption
+                            select
+                        div
+                        div class=form-group
+                            labelinput type=checkbox id=newPokemonShiny Shiny Pokemonlabel
+                        div
+                        button type=submit class=order-btnAdd PokemonItembutton
+                    form
+                div
+
+                div
+                    h3 style=color#8B4513;📊 Current Inventoryh3
+                    div id=adminInventoryList style=max-height500px; overflow-yauto;div
+
+                    h3 style=color#8B4513; margin-top30px;📋 All Orders (Admin)h3
+                    div style=margin 8px 0;
+                        button class=admin-btn onclick=adminFilterOrders('all')Allbutton
+                        button class=admin-btn onclick=adminFilterOrders('pending')Pendingbutton
+                        button class=admin-btn onclick=adminFilterOrders('completed')Completedbutton
+                        button class=admin-btn onclick=adminFilterOrders('cancelled')Cancelledbutton
+                    div
+                    div id=adminOrdersList style=max-height400px; overflow-yauto;div
+                div
+            div
+        div
+    div
+
+    !-- Admin Login Modal --
+    div id=adminLoginModal class=modal
+        div class=modal-content
+            span class=close onclick=closeAdminLogin()&times;span
+            h2 style=color#8B4513;🔐 Admin Loginh2
+            form id=adminLoginForm
+                div class=form-group
+                    labelEmaillabel
+                    input type=email id=adminEmail required
+                div
+                div class=form-group
+                    labelPasswordlabel
+                    input type=password id=adminPassword required
+                div
+                button type=submit class=order-btnLoginbutton
+            form
+        div
+    div
+
+    !-- Edit Pokemon Modal --
+    div id=editPokemonModal class=modal
+        div class=modal-content
+            span class=close onclick=closeEditModal()&times;span
+            h2 style=color#8B4513;✏️ Edit Pokemon  Itemh2
+            form id=editPokemonForm
+                input type=hidden id=editPokemonIndex
+                div class=form-group
+                    labelCategorylabel
+                    select id=editPokemonCategory
+                        option value=pokemonPokemonoption
+                        option value=otherOther itemsoption
+                    select
+                div
+                div class=form-group
+                    labelPokemon Namelabel
+                    input type=text id=editPokemonName required
+                div
+                div class=form-group
+                    labelBase Price (PokeDollars)label
+                    input type=number id=editPokemonPrice required min=1
+                div
+                div class=form-group
+                    labelIVs (HPAttDefSpASpDSpe)label
+                    input type=text id=editPokemonIvs required placeholder=313131313131
+                div
+                div class=form-group
+                    labelNaturelabel
+                    input type=text id=editPokemonNature required
+                div
+                div class=form-group
+                    labelAbilitylabel
+                    input type=text id=editPokemonAbility required
+                div
+                div class=form-group id=editEggMovesGroup
+                    labelEgg Moves (comma separated)label
+                    input type=text id=editPokemonEggMoves
+                div
+                div class=form-group
+                    labelPokemon Image URLlabel
+                    input type=url id=editPokemonImage
+                div
+                div class=form-group
+                    labelEvolution Chain (comma separated)label
+                    input type=text id=editPokemonEvolutions
+                div
+                div class=form-group
+                    labelStatuslabel
+                    select id=editPokemonStatus required
+                        option value=availableAvailableoption
+                        option value=out-of-stockOut of Stockoption
+                    select
+                div
+                div class=form-group
+                    labelinput type=checkbox id=editPokemonShiny Shiny Pokemonlabel
+                div
+                button type=submit class=order-btnUpdate PokemonItembutton
+            form
+        div
+    div
+
+    !-- Pokemon Details Modal --
+    div id=pokemonDetailsModal class=modal
+        div class=modal-content
+            span class=close onclick=closePokemonDetails()&times;span
+            div id=pokemonDetailsContentdiv
+        div
+    div
+
+    div id=notification class=notificationdiv
+
+    script
+         Admin credentials
+        const ADMIN_CREDENTIALS = {
+            email 'admin@breedingcave.com',
+            password 'cavebreeder2024'
+        };
+
+         Sample Pokemon data with category field
+        let pokemonInventory = [
+            { category 'pokemon', name Charizard, basePrice 150000, status available, ivs 313130313131, nature Adamant, ability Blaze, eggMoves [Dragon Dance,Outrage,Ancient Power], shiny false, image httpsimg.pokemondb.netartworklargecharizard.jpg, evolutions [Charmander,Charmeleon,Charizard] },
+            { category 'pokemon', name Garchomp, basePrice 200000, status available, ivs 313131313131, nature Jolly, ability Rough Skin, eggMoves [Iron Head,Outrage], shiny true, image httpsimg.pokemondb.netartworklargegarchomp.jpg, evolutions [Gible,Gabite,Garchomp] },
+            { category 'pokemon', name Metagross, basePrice 180000, status available, ivs 313131303131, nature Adamant, ability Clear Body, eggMoves [Ice Punch,Thunder Punch], shiny false, image httpsimg.pokemondb.netartworklargemetagross.jpg, evolutions [Beldum,Metang,Metagross] },
+            { category 'other', name Rayquaza, basePrice 500000, status available, ivs 313131313131, nature Adamant, ability Air Lock, eggMoves [], shiny false, image httpsimg.pokemondb.netartworklargerayquaza.jpg, evolutions [Rayquaza] },
+            { category 'pokemon', name Pikachu, basePrice 50000, status available, ivs 313031313131, nature Timid, ability Static, eggMoves [Volt Tackle,Wish], shiny true, image httpsimg.pokemondb.netartworklargepikachu.jpg, evolutions [Pichu,Pikachu,Raichu] },
+            { category 'pokemon', name Dragonite, basePrice 175000, status available, ivs 313131313131, nature Adamant, ability Multiscale, eggMoves [Extreme Speed,Dragon Dance], shiny false, image httpsimg.pokemondb.netartworklargedragonite.jpg, evolutions [Dratini,Dragonair,Dragonite] }
+        ];
+
+        let orders = [];
+        let selectedRank = '';
+        let selectedPayment = '';
+        let isAdmin = false;
+        let cart = [];
+        let purchasedUsers = [];  Track users who made first purchase
+        let currentCategory = 'pokemon';  'pokemon' or 'other'
+        let adminOrderFilter = 'all';  for admin list
+
+         Initialize
+        document.addEventListener('DOMContentLoaded', () = {
+            displayPokemon();
+            updateCartDisplay();
+            displayOrders();
+             hide egg-moves group when 'other' selected in add form
+            document.getElementById('newPokemonCategory').addEventListener('change', (e) = {
+                toggleEggMovesInput('new', e.target.value);
+            });
+            document.getElementById('editPokemonCategory').addEventListener('change', (e) = {
+                toggleEggMovesInput('edit', e.target.value);
+            });
+        });
+
+         Safe showTab accept optional event
+        function showTab(tabName, evt) {
+            document.querySelectorAll('.tab-content').forEach(tab = tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn = btn.classList.remove('active'));
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) targetTab.classList.add('active');
+            if (evt && evt.target) evt.target.classList.add('active');
+
+            if (tabName === 'admin' && isAdmin) {
+                updateAdminInventoryList();
+                updateAdminOrdersList();
+            }
+            if (tabName === 'orders') {
+                displayOrders();
+            }
+        }
+
+         Category filter
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.getElementById('categoryPokemonBtn').classList.toggle('selected', cat === 'pokemon');
+            document.getElementById('categoryOtherBtn').classList.toggle('selected', cat === 'other');
+            displayPokemon();
+        }
+
+        function displayPokemon() {
+            const grid = document.getElementById('pokemonGrid');
+            grid.innerHTML = '';
+
+            pokemonInventory.filter(p = p.category === currentCategory).forEach((pokemon, index) = {
+                const statusClass = pokemon.status === 'available'  'available'  'out-of-stock';
+                const statusText = pokemon.status === 'available'  'Available'  'Out of Stock';
+
+                const card = document.createElement('div');
+                card.className = 'pokemon-card';
+                card.onclick = () = showPokemonDetails(pokemon);
+
+                 show random stat note if IVs contains 'x' or 'X'
+                const ivsHasX = xi.test(pokemon.ivs  '');
+                const ivsNote = ivsHasX  `div style=margin-top6px; color#8B4513; font-weightbold;⚠️ This stat is randomdiv`  '';
+
+                card.innerHTML = `
+                    div class=admin-controls ${isAdmin  'show'  ''}
+                        button class=admin-btn edit onclick=event.stopPropagation(); editPokemon(${index})Editbutton
+                        button class=admin-btn onclick=event.stopPropagation(); deletePokemon(${index})Deletebutton
+                    div
+                    ${pokemon.image  `img src=${pokemon.image} alt=${pokemon.name} class=pokemon-image onerror=this.style.display='none'`  ''}
+                    h3${pokemon.name} ${pokemon.shiny  '✨'  ''}h3
+                    span class=status-badge ${statusClass}${statusText}span
+                    div class=pokemon-stats
+                        pstrongIVsstrong span class=ivs-display${pokemon.ivs}spanp
+                        ${ivsNote}
+                        pstrongNaturestrong ${pokemon.nature}p
+                        pstrongAbilitystrong ${pokemon.ability}p
+                        ${pokemon.category === 'pokemon' && pokemon.eggMoves && pokemon.eggMoves.length  0  `pstrongEgg Movesstrong ${pokemon.eggMoves.join(', ')}p`  ''}
+                        ${pokemon.shiny  'p style=color#d4af37;strong✨ Shiny Pokemon!strongp'  ''}
+                    div
+                    div class=price💰 ${pokemon.basePrice.toLocaleString()} PokeDollarsdiv
+                    button class=cart-btn onclick=event.stopPropagation(); addToCart('${pokemon.name}') ${pokemon.status === 'out-of-stock'  'disabled style=opacity0.5; cursornot-allowed;'  ''}
+                        ${pokemon.status === 'out-of-stock'  '❌ Out of Stock'  '🛒 Add to Cart'}
+                    button
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showPokemonDetails(pokemon) {
+            const modal = document.getElementById('pokemonDetailsModal');
+            const content = document.getElementById('pokemonDetailsContent');
+
+            let evolutionChain = '';
+            if (pokemon.evolutions && pokemon.evolutions.length  1) {
+                evolutionChain = `
+                    h3 style=color #8B4513; margin-top20px;Evolution Chainh3
+                    div class=evolution-chain
+                        ${pokemon.evolutions.map((evo, index) =
+                            `div class=evolution-stagestrong${evo}strongdiv${index  pokemon.evolutions.length - 1  'div class=evolution-arrow→div'  ''}`
+                        ).join('')}
+                    div
+                `;
+            }
+
+            const ivsHasX = xi.test(pokemon.ivs  '');
+            const ivsNote = ivsHasX  `p style=color#8B4513; font-weightbold;⚠️ One or more IVs contain x — that stat is random.p`  '';
+
+            content.innerHTML = `
+                h2 style=color#8B4513; margin-bottom20px;${pokemon.name} ${pokemon.shiny  '✨'  ''}h2
+                ${pokemon.image  `img src=${pokemon.image} alt=${pokemon.name} style=width200px; height200px; object-fitcover; border-radius15px; displayblock; margin0 auto 20px; border3px solid #8B4513;`  ''}
+                div style=background rgba(139,69,19,0.1); padding20px; border-radius15px;
+                    pstrongPricestrong ${pokemon.basePrice.toLocaleString()} PokeDollarsp
+                    pstrongIVsstrong span class=ivs-display${pokemon.ivs}spanp
+                    ${ivsNote}
+                    pstrongNaturestrong ${pokemon.nature}p
+                    pstrongAbilitystrong ${pokemon.ability}p
+                    pstrongStatusstrong ${pokemon.status === 'available'  'Available'  'Out of Stock'}p
+                    ${pokemon.category === 'pokemon' && pokemon.eggMoves && pokemon.eggMoves.length  0  `pstrongEgg Movesstrong ${pokemon.eggMoves.join(', ')}p`  ''}
+                    ${pokemon.shiny  'p style=color#d4af37;strong✨ This is a Shiny Pokemon!strongp'  ''}
+                div
+                ${evolutionChain}
+            `;
+            modal.style.display = 'block';
+        }
+
+        function closePokemonDetails() {
+            document.getElementById('pokemonDetailsModal').style.display = 'none';
+        }
+
+        function addToCart(pokemonName) {
+            const pokemon = pokemonInventory.find(p = p.name === pokemonName);
+            if (!pokemon) return showNotification('Item not found', 'error');
+            const existingItem = cart.find(item = item.name === pokemonName);
+
+            if (existingItem) existingItem.quantity++;
+            else cart.push({ name pokemonName, price pokemon.basePrice, quantity 1, shiny pokemon.shiny });
+
+            updateCartDisplay();
+            updateOrderSummary();
+            showNotification(`${pokemonName} added to cart!`, 'success');
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                cartItems.innerHTML = 'p style=color#8B4513; text-aligncenter; margin20px 0; font-styleitalic;Cart is emptyp';
+                return;
+            }
+            cartItems.innerHTML = '';
+            cart.forEach((item, index) = {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'cart-item';
+                itemDiv.innerHTML = `
+                    div
+                        strong${item.name} ${item.shiny  '✨'  ''}strongbr
+                        small style=color#8B4513;${item.price.toLocaleString()} eachsmall
+                    div
+                    div class=quantity-controls
+                        button class=qty-btn onclick=changeQuantity(${index}, -1)-button
+                        span style=margin0 10px; font-weightbold;${item.quantity}span
+                        button class=qty-btn onclick=changeQuantity(${index}, 1)+button
+                        button class=admin-btn onclick=removeFromCart(${index}) style=margin-left10px;Removebutton
+                    div
+                `;
+                cartItems.appendChild(itemDiv);
+            });
+        }
+
+        function changeQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity = 0) cart.splice(index, 1);
+            updateCartDisplay();
+            updateOrderSummary();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+            updateOrderSummary();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartDisplay();
+            updateOrderSummary();
+            showNotification('Cart cleared!', 'success');
+        }
+
+        function selectRank(rank) {
+            document.querySelectorAll('.rank-option').forEach(option = option.classList.remove('selected'));
+            const elem = document.querySelector(`[data-rank=${rank}]`);
+            if (elem) elem.classList.add('selected');
+            document.getElementById('selectedRank').value = rank;
+            selectedRank = rank;
+            updateOrderSummary();
+        }
+
+        function selectPayment(payment) {
+            document.querySelectorAll('.payment-option').forEach(option = option.classList.remove('selected'));
+            const elem = document.querySelector(`[data-payment=${payment}]`);
+            if (elem) elem.classList.add('selected');
+            document.getElementById('selectedPayment').value = payment;
+            selectedPayment = payment;
+            updateOrderSummary();
+        }
+
+        function checkFirstTime() {
+            const username = document.getElementById('username').value.toLowerCase().trim();
+            const status = document.getElementById('firstTimeStatus');
+            if (username) {
+                const isFirstTime = !purchasedUsers.includes(username);
+                status.innerHTML = isFirstTime  'span style=color#228b22;✅ First-time customer - special pricing available!span'  'span style=color#8B4513;🔄 Returning customer - regular pricing appliesspan';
+                updateOrderSummary();
+            } else {
+                status.innerHTML = '';
+            }
+        }
+
+        function updateOrderSummary() {
+            const summary = document.getElementById('orderSummary');
+            const username = document.getElementById('username').value.toLowerCase().trim();
+            if (cart.length === 0  !selectedRank  !selectedPayment) {
+                summary.innerHTML = 'h3 style=color#8B4513;📋 Order Summaryh3pAdd Pokemon to cart, select rank, and payment method to see pricing detailsp';
+                return;
+            }
+
+            const isFirstTime = username && !purchasedUsers.includes(username);
+            let totalPrice = 0;
+
+             Rank pricing
+            if (isFirstTime) {
+                switch(selectedRank) {
+                    case 'trainer' totalPrice = 10000; break;
+                    case 'champion' totalPrice = 20000; break;
+                    case 'conqueror'
+                    case 'master'
+                    case 'legend' totalPrice = 30000; break;
+                }
+            } else {
+                switch(selectedRank) {
+                    case 'trainer' totalPrice = 25000; break;
+                    case 'champion' totalPrice = 30000; break;
+                    case 'conqueror' totalPrice = 35000; break;
+                    case 'master'
+                    case 'legend' totalPrice = 40000; break;
+                }
+            }
+
+             Payment processing
+            let finalPrice = totalPrice;
+            let paymentText = '';
+            if (selectedPayment === 'tokens300') {
+                finalPrice = Math.floor(totalPrice  0.5);
+                paymentText = '300 Tokens (50% off — 1 month)';
+            } else if (selectedPayment === 'tokens500') {
+                finalPrice = 0;
+                paymentText = '500 Tokens (1 month free)';
+            } else {
+                paymentText = `PokeDollars ${finalPrice.toLocaleString()}`;
+            }
+
+            let cartSummary = 'h4 style=color#8B4513;Cart Itemsh4';
+            cart.forEach(item = cartSummary += `p• ${item.name} ${item.shiny  '✨'  ''} x${item.quantity}p`);
+
+            summary.innerHTML = `
+                h3 style=color#8B4513;📋 Order Summaryh3
+                ${cartSummary}
+                hr style=margin15px 0; border-color rgba(139,69,19,0.3);
+                pstrongRankstrong ${selectedRank.charAt(0).toUpperCase() + selectedRank.slice(1)}p
+                pstrongCustomer Typestrong ${isFirstTime  'First-time (special pricing)'  'Returning customer'}p
+                pstrongBase Pricestrong ${totalPrice.toLocaleString()}p
+                pstrongPayment Methodstrong ${paymentText}p
+                hr style=margin10px 0; border-color rgba(139,69,19,0.3);
+                pstrong style=font-size1.2em;Total span style=color#228b22;${selectedPayment === 'tokens500'  'FREE (500 Tokens)'  selectedPayment === 'tokens300'  `${finalPrice.toLocaleString()} PokeDollars (after 300 Tokens)`  `${finalPrice.toLocaleString()} PokeDollars`}spanstrongp
+            `;
+        }
+
+         Admin modal functions
+        function showAdminLogin() { document.getElementById('adminLoginModal').style.display = 'block'; }
+        function closeAdminLogin() { document.getElementById('adminLoginModal').style.display = 'none'; document.getElementById('adminLoginForm').reset(); }
+
+        function showAdminControls() {
+            isAdmin = true;
+            document.getElementById('adminTab').style.display = 'block';
+            displayPokemon();
+            updateAdminInventoryList();
+            updateAdminOrdersList();
+            showNotification('Admin mode activated!', 'success');
+            closeAdminLogin();
+        }
+
+        function editPokemon(index) {
+            const pokemon = pokemonInventory[index];
+             populate edit modal
+            document.getElementById('editPokemonIndex').value = index;
+            document.getElementById('editPokemonCategory').value = pokemon.category  'pokemon';
+            document.getElementById('editPokemonName').value = pokemon.name;
+            document.getElementById('editPokemonPrice').value = pokemon.basePrice;
+            document.getElementById('editPokemonIvs').value = pokemon.ivs;
+            document.getElementById('editPokemonNature').value = pokemon.nature;
+            document.getElementById('editPokemonAbility').value = pokemon.ability;
+            document.getElementById('editPokemonEggMoves').value = pokemon.eggMoves  pokemon.eggMoves.join(', ')  '';
+            document.getElementById('editPokemonImage').value = pokemon.image  '';
+            document.getElementById('editPokemonEvolutions').value = pokemon.evolutions  pokemon.evolutions.join(', ')  '';
+            document.getElementById('editPokemonStatus').value = pokemon.status;
+            document.getElementById('editPokemonShiny').checked = pokemon.shiny;
+             toggle egg moves input if category is other
+            toggleEggMovesInput('edit', pokemon.category  'pokemon');
+            document.getElementById('editPokemonModal').style.display = 'block';
+        }
+
+        function closeEditModal() { document.getElementById('editPokemonModal').style.display = 'none'; }
+
+        function deletePokemon(index) {
+            if (!confirm(`Are you sure you want to delete ${pokemonInventory[index].name}`)) return;
+            pokemonInventory.splice(index, 1);
+            displayPokemon();
+            updateAdminInventoryList();
+            showNotification('Pokemon deleted successfully!', 'success');
+        }
+
+        function updateAdminInventoryList() {
+            const list = document.getElementById('adminInventoryList');
+            list.innerHTML = '';
+            pokemonInventory.forEach((pokemon, index) = {
+                const item = document.createElement('div');
+                item.className = 'cart-item';
+                item.innerHTML = `
+                    div
+                        strong${pokemon.name} ${pokemon.shiny  '✨'  ''} (${pokemon.category})strongbr
+                        small style=color#8B4513;${pokemon.basePrice.toLocaleString()}  ${pokemon.ivs}  ${pokemon.nature}  ${pokemon.status}small
+                    div
+                    div
+                        button class=admin-btn edit onclick=editPokemon(${index})Editbutton
+                        button class=admin-btn onclick=deletePokemon(${index})Deletebutton
+                    div
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function updateAdminOrdersList() {
+            const list = document.getElementById('adminOrdersList');
+            list.innerHTML = '';
+            let filtered = orders;
+            if (adminOrderFilter !== 'all') filtered = orders.filter(o = o.status === adminOrderFilter);
+            if (filtered.length === 0) {
+                list.innerHTML = 'p style=text-aligncenter; color#8B4513; margin20px 0;No orders foundp';
+                return;
+            }
+            filtered.slice().reverse().forEach(order = {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'cart-item';
+                let itemsList = order.items.map(i = `${i.name} ${i.shiny  '✨'  ''} x${i.quantity}`).join(', ');
+                orderDiv.innerHTML = `
+                    div
+                        strongOrder #${order.id}strongbr
+                        smallstrongUserstrong ${order.username} (${order.rank})smallbr
+                        smallstrongItemsstrong ${itemsList}smallbr
+                        smallstrongPaymentstrong ${order.paymentMethod}smallbr
+                        smallstrongTotalstrong ${order.totalDisplay}smallbr
+                        smallstrongDatestrong ${order.timestamp}small
+                        ${order.requirements  `brsmallstrongNotesstrong ${order.requirements}small`  ''}
+                    div
+                    div
+                        div style=margin-bottom8px;span class=status-badge ${order.status}${order.status}spandiv
+                        div style=displayflex; flex-directioncolumn; gap6px;
+                            button class=admin-btn onclick=adminSetOrderStatus('${order.id}', 'completed')Mark Completedbutton
+                            button class=admin-btn onclick=adminSetOrderStatus('${order.id}', 'pending')Mark Pendingbutton
+                            button class=admin-btn onclick=adminSetOrderStatus('${order.id}', 'cancelled')Cancelbutton
+                            button class=admin-btn onclick=adminDeleteOrder('${order.id}')Deletebutton
+                        div
+                    div
+                `;
+                list.appendChild(orderDiv);
+            });
+        }
+
+        function adminFilterOrders(status) {
+            adminOrderFilter = status;
+            updateAdminOrdersList();
+        }
+
+        function adminSetOrderStatus(orderId, status) {
+            const idx = orders.findIndex(o = String(o.id) === String(orderId));
+            if (idx === -1) return showNotification('Order not found', 'error');
+            orders[idx].status = status;
+            updateAdminOrdersList();
+            displayOrders();
+            showNotification(`Order ${orderId} set to ${status}`, 'success');
+        }
+
+        function adminDeleteOrder(orderId) {
+            if (!confirm('Delete this order permanently')) return;
+            orders = orders.filter(o = String(o.id) !== String(orderId));
+            updateAdminOrdersList();
+            displayOrders();
+            showNotification('Order deleted', 'success');
+        }
+
+        function displayOrders() {
+            const ordersList = document.getElementById('ordersList');
+            if (orders.length === 0) {
+                ordersList.innerHTML = 'p style=text-aligncenter; color#8B4513; margin40px 0;No orders yet. Place your first order to see it here!p';
+                return;
+            }
+            ordersList.innerHTML = '';
+            orders.slice().reverse().forEach(order = {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'cart-item';
+                orderDiv.style.marginBottom = '15px';
+                let itemsList = order.items.map(item = `${item.name} ${item.shiny  '✨'  ''} x${item.quantity}`).join(', ');
+                orderDiv.innerHTML = `
+                    div
+                        h4 style=color#8B4513; margin-bottom8px;Order #${order.id}h4
+                        pstrongItemsstrong ${itemsList}p
+                        pstrongTotalstrong ${order.totalDisplay}p
+                        pstrongPaymentstrong ${order.paymentMethod}p
+                        ${order.requirements  `pstrongRequirementsstrong ${order.requirements}p`  ''}
+                        pstrongStatusstrong span class=status-badge ${order.status}${order.status}spanp
+                        pstrongSubmittedstrong ${order.timestamp}p
+                    div
+                `;
+                ordersList.appendChild(orderDiv);
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            setTimeout(() = notification.classList.remove('show'), 4000);
+        }
+
+         Add  Edit forms
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) showAdminControls();
+            else showNotification('Invalid credentials!', 'error');
+        });
+
+        document.getElementById('addPokemonForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const category = document.getElementById('newPokemonCategory').value  'pokemon';
+            const eggMovesInput = document.getElementById('newPokemonEggMoves').value;
+            const evolutionsInput = document.getElementById('newPokemonEvolutions').value;
+            const newPokemon = {
+                category,
+                name document.getElementById('newPokemonName').value,
+                basePrice parseInt(document.getElementById('newPokemonPrice').value, 10),
+                status document.getElementById('newPokemonStatus').value,
+                ivs document.getElementById('newPokemonIvs').value,
+                nature document.getElementById('newPokemonNature').value,
+                ability document.getElementById('newPokemonAbility').value,
+                eggMoves category === 'pokemon'  (eggMovesInput  eggMovesInput.split(',').map(m = m.trim())  [])  [],
+                image document.getElementById('newPokemonImage').value  null,
+                evolutions evolutionsInput  evolutionsInput.split(',').map(e = e.trim())  [],
+                shiny document.getElementById('newPokemonShiny').checked
+            };
+            pokemonInventory.push(newPokemon);
+            displayPokemon();
+            updateAdminInventoryList();
+            showNotification('PokemonItem added successfully!', 'success');
+            document.getElementById('addPokemonForm').reset();
+            toggleEggMovesInput('new', 'pokemon');  reset visibility
+        });
+
+        document.getElementById('editPokemonForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('editPokemonIndex').value, 10);
+            const category = document.getElementById('editPokemonCategory').value  'pokemon';
+            const eggMovesInput = document.getElementById('editPokemonEggMoves').value;
+            const evolutionsInput = document.getElementById('editPokemonEvolutions').value;
+            pokemonInventory[index] = {
+                category,
+                name document.getElementById('editPokemonName').value,
+                basePrice parseInt(document.getElementById('editPokemonPrice').value, 10),
+                status document.getElementById('editPokemonStatus').value,
+                ivs document.getElementById('editPokemonIvs').value,
+                nature document.getElementById('editPokemonNature').value,
+                ability document.getElementById('editPokemonAbility').value,
+                eggMoves category === 'pokemon'  (eggMovesInput  eggMovesInput.split(',').map(m = m.trim())  [])  [],
+                image document.getElementById('editPokemonImage').value  null,
+                evolutions evolutionsInput  evolutionsInput.split(',').map(e = e.trim())  [],
+                shiny document.getElementById('editPokemonShiny').checked
+            };
+            displayPokemon();
+            updateAdminInventoryList();
+            closeEditModal();
+            showNotification('PokemonItem updated successfully!', 'success');
+        });
+
+         Order submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (cart.length === 0) return showNotification('Please add Pokemon to cart before ordering!', 'error');
+            const username = document.getElementById('username').value.toLowerCase().trim();
+            const isFirstTime = !purchasedUsers.includes(username);
+
+            let totalPrice = 0;
+            if (isFirstTime) {
+                switch(selectedRank) {
+                    case 'trainer' totalPrice = 10000; break;
+                    case 'champion' totalPrice = 20000; break;
+                    case 'conqueror'
+                    case 'master'
+                    case 'legend' totalPrice = 30000; break;
+                }
+            } else {
+                switch(selectedRank) {
+                    case 'trainer' totalPrice = 25000; break;
+                    case 'champion' totalPrice = 30000; break;
+                    case 'conqueror' totalPrice = 35000; break;
+                    case 'master'
+                    case 'legend' totalPrice = 40000; break;
+                }
+            }
+
+            let finalPrice = totalPrice;
+            let paymentMethodText = '';
+            let totalDisplay = '';
+
+            if (selectedPayment === 'tokens300') {
+                finalPrice = Math.floor(totalPrice  0.5);
+                paymentMethodText = '300 Tokens';
+                totalDisplay = `${finalPrice.toLocaleString()} PokeDollars (300 Tokens - 50% off)`;
+            } else if (selectedPayment === 'tokens500') {
+                finalPrice = 0;
+                paymentMethodText = '500 Tokens';
+                totalDisplay = 'FREE (500 Tokens)';
+            } else {
+                paymentMethodText = 'PokeDollars';
+                totalDisplay = `${finalPrice.toLocaleString()} PokeDollars`;
+            }
+
+            const formData = {
+                id Date.now(),
+                username,
+                rank selectedRank,
+                items JSON.parse(JSON.stringify(cart)),
+                totalPrice finalPrice,
+                totalDisplay,
+                paymentMethod paymentMethodText,
+                requirements document.getElementById('requirements').value,
+                 contact removed on purpose per request
+                timestamp new Date().toLocaleString(),
+                status 'pending',
+                firstTimeOrder isFirstTime
+            };
+
+            orders.push(formData);
+            if (isFirstTime) purchasedUsers.push(username);
+
+            displayOrders();
+            if (isAdmin) updateAdminOrdersList();
+
+            showNotification('Order submitted successfully! You will be contacted soon.', 'success');
+
+            document.getElementById('orderForm').reset();
+            document.querySelectorAll('.rank-option').forEach(o = o.classList.remove('selected'));
+            document.querySelectorAll('.payment-option').forEach(o = o.classList.remove('selected'));
+            selectedRank = '';
+            selectedPayment = '';
+            cart = [];
+            updateCartDisplay();
+            updateOrderSummary();
+            checkFirstTime();
+        });
+
+         toggle egg moves input visibility for category 'other'
+        function toggleEggMovesInput(prefix, category) {
+            const groupId = prefix === 'new'  'eggMovesGroup'  'editEggMovesGroup';
+            const group = document.getElementById(groupId);
+            if (!group) return;
+            if (category === 'other') group.style.display = 'none';
+            else group.style.display = 'block';
+        }
+
+         Close modals when clicking outside
+        window.onclick = function(event) {
+            const adminModal = document.getElementById('adminLoginModal');
+            const editModal = document.getElementById('editPokemonModal');
+            const detailsModal = document.getElementById('pokemonDetailsModal');
+            if (event.target === adminModal) closeAdminLogin();
+            if (event.target === editModal) closeEditModal();
+            if (event.target === detailsModal) closePokemonDetails();
+        };
+    script
+body
+html
